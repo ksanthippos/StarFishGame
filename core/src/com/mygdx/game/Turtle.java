@@ -11,6 +11,9 @@ public class Turtle extends BaseActor {
         String[] fileNames = {"turtle-1.png", "turtle-2.png", "turtle-3.png", "turtle-4.png", "turtle-5.png", "turtle-6.png"};
         loadAnimationFromFiles(fileNames, 0.1f, true);
 
+        // boundaries
+        setBoundaryPolygon(8);
+
         // set physics
         setAcceleration(400);
         setDeceleration(300);
