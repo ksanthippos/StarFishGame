@@ -6,28 +6,27 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class StarFishGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
+public class StarFishGame extends GameBeta {
+
+	private Turtle turtle;
+	private Starfish starfish;
+	private BaseActor ocean;
+
 	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+	public void initialize() {
+
+		ocean = new BaseActor(0, 0, mainStage);
+		ocean.loadTexture("water.jpg");
+		ocean.setSize(800, 600);
+
+		starfish = new Starfish(380, 380, mainStage);
+		turtle = new Turtle(20, 20, mainStage);
 	}
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+	public void update(float dt) {
+
 	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
+
+
 }
