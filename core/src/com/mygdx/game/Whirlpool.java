@@ -12,7 +12,6 @@ public class Whirlpool extends BaseActor {
     @Override
     public void act(float dt) {
         super.act(dt);
-
         if (isAnimationFinished())
             remove();
     }
