@@ -290,21 +290,9 @@ public class BaseActor extends Actor {
         return mtv.normal;
     }
 
-    // world bounds check
-    public void boundToWorld() {
-        if (getX() < 0) // left
-            setX(0);
-        if (getX() + getWidth() > worldBounds.width) // right
-            setX(worldBounds.width - getWidth());
-        if (getY() < 0) // bottom
-            setY(0);
-        if (getY() + getHeight() > worldBounds.height)  // top
-            setY(worldBounds.height - getHeight());
-    }
-
     // ***********************
 
-    // position corrections, changing opacity and camera
+    // POSITION, CAMERA & BOUNDS
     // ***********************
     public void centerAtPosition(float x, float y) {
         setPosition(x - getWidth() / 2, y - getHeight() / 2);
@@ -331,38 +319,19 @@ public class BaseActor extends Actor {
         cam.update();
     }
 
-    // ***********************
-
-    // actor lists
-    // ***********************
-    /*
-    NOT WORKING FOR SOME REASON..
-
-    public static ArrayList<BaseActor> getList(Stage stage, String className) {
-        ArrayList<BaseActor> list = new ArrayList<>();
-        Class theClass = null;
-
-        try {
-            theClass = Class.forName(className);
-        }
-        catch (Exception error) {
-            error.printStackTrace();
-        }
-        for (Actor a: stage.getActors()) {
-            if (theClass.isInstance(a))
-                list.add((BaseActor) a);
-        }
-
-        return list;
+    // world bounds check
+    public void boundToWorld() {
+        if (getX() < 0) // left
+            setX(0);
+        if (getX() + getWidth() > worldBounds.width) // right
+            setX(worldBounds.width - getWidth());
+        if (getY() < 0) // bottom
+            setY(0);
+        if (getY() + getHeight() > worldBounds.height)  // top
+            setY(worldBounds.height - getHeight());
     }
 
-    public static int count(Stage stage, String className) {
-        return getList(stage, className).size();
-    }
-*/
-    // ***********************
-
-    // static methods
+    // these are static methods
     public static void setWorldBounds(float width, float height) {
         worldBounds = new Rectangle(0, 0, width, height);
     }
@@ -370,6 +339,9 @@ public class BaseActor extends Actor {
     public static void setWorldBounds(BaseActor actor) {
         setWorldBounds(actor.getWidth(), actor.getHeight());
     }
+
+    // ***********************
+
 
 
 
