@@ -9,8 +9,4 @@ public class Rock extends BaseActor {
         loadTexture("rock.png");
         setBoundaryPolygon(8);
     }
-
-
-
-
 }

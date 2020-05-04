@@ -308,7 +308,7 @@ public class BaseActor extends Actor {
 
     // actor lists
     // ***********************
-    public ArrayList<BaseActor> getList(Stage stage, String className) {
+    public static ArrayList<BaseActor> getList(Stage stage, String className) {
         ArrayList<BaseActor> list = new ArrayList<>();
         Class theClass = null;
 
@@ -326,9 +326,9 @@ public class BaseActor extends Actor {
         return list;
     }
 
-
-
-
+    public static int count(Stage stage, String className) {
+        return getList(stage, className).size();
+    }
 
     // ***********************
 
