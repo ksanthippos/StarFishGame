@@ -1,18 +1,17 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sun.tools.javac.code.Attribute;
 
 import java.util.ArrayList;
@@ -30,6 +29,8 @@ public class BaseActor extends Actor {
     private float maxSpeed;
 
     private Polygon boundaryPolygon;
+
+    private static Rectangle worldBounds;
 
     public BaseActor(float x, float y, Stage s) {
         super();
@@ -288,9 +289,22 @@ public class BaseActor extends Actor {
 
         return mtv.normal;
     }
+
+    // world bounds check
+    public void boundToWorld() {
+        if (getX() < 0) // left
+            setX(0);
+        if (getX() + getWidth() > worldBounds.width) // right
+            setX(worldBounds.width - getWidth());
+        if (getY() < 0) // bottom
+            setY(0);
+        if (getY() + getHeight() > worldBounds.height)  // top
+            setY(worldBounds.height - getHeight());
+    }
+
     // ***********************
 
-    // position corrections and changing opacity
+    // position corrections, changing opacity and camera
     // ***********************
     public void centerAtPosition(float x, float y) {
         setPosition(x - getWidth() / 2, y - getHeight() / 2);
@@ -304,10 +318,26 @@ public class BaseActor extends Actor {
         this.getColor().a = opacity;
     }
 
+    public void alignCamera() {
+        Camera cam = this.getStage().getCamera();
+        Viewport view = this.getStage().getViewport();
+
+        // center camera on actor
+        cam.position.set(this.getX() + this.getOriginX(), this.getY() + this.getOriginY(), 0);
+
+        // bound camera to layout
+        cam.position.x = MathUtils.clamp(cam.position.x, cam.viewportWidth / 2, worldBounds.width - cam.viewportWidth / 2);
+        cam.position.y = MathUtils.clamp(cam.position.y, cam.viewportHeight / 2, worldBounds.height - cam.viewportHeight / 2);
+        cam.update();
+    }
+
     // ***********************
 
     // actor lists
     // ***********************
+    /*
+    NOT WORKING FOR SOME REASON..
+
     public static ArrayList<BaseActor> getList(Stage stage, String className) {
         ArrayList<BaseActor> list = new ArrayList<>();
         Class theClass = null;
@@ -329,8 +359,17 @@ public class BaseActor extends Actor {
     public static int count(Stage stage, String className) {
         return getList(stage, className).size();
     }
-
+*/
     // ***********************
+
+    // static methods
+    public static void setWorldBounds(float width, float height) {
+        worldBounds = new Rectangle(0, 0, width, height);
+    }
+
+    public static void setWorldBounds(BaseActor actor) {
+        setWorldBounds(actor.getWidth(), actor.getHeight());
+    }
 
 
 

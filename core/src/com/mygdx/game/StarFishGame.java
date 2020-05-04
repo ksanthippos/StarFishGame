@@ -26,6 +26,7 @@ public class StarFishGame extends GameBeta {
 		BaseActor ocean = new BaseActor(0, 0, mainStage);
 		ocean.loadTexture("water.jpg");
 		ocean.setSize(800, 600);
+		BaseActor.setWorldBounds(ocean);
 
 		// game objects
 		starfishList = new ArrayList<>();
