@@ -13,6 +13,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.sun.tools.javac.code.Attribute;
+
+import java.util.ArrayList;
 
 public class BaseActor extends Actor {
 
@@ -265,6 +268,26 @@ public class BaseActor extends Actor {
 
         return Intersector.overlapConvexPolygons(poly1, poly2);
     }
+
+    // prevent overlapping (rock collisions) --> returns null, if not collided
+    public Vector2 preventOverlap(BaseActor other) {
+        Polygon poly1 = this.getBoundaryPolygon();
+        Polygon poly2 = other.getBoundaryPolygon();
+
+        if (!poly1.getBoundingRectangle().overlaps(poly2.getBoundingRectangle()))
+            return null;
+
+        Intersector.MinimumTranslationVector mtv = new Intersector.MinimumTranslationVector();
+        boolean polygonOverlap = Intersector.overlapConvexPolygons(poly1, poly2, mtv);
+
+        if (!polygonOverlap)
+            return null;
+
+        // in case of collision, move actor "smoothly" along the colliding objects' edges
+        this.moveBy(mtv.normal.x * mtv.depth, mtv.normal.y * mtv.depth);
+
+        return mtv.normal;
+    }
     // ***********************
 
     // position corrections and changing opacity
@@ -281,7 +304,33 @@ public class BaseActor extends Actor {
         this.getColor().a = opacity;
     }
 
+    // ***********************
 
+    // actor lists
+    // ***********************
+    public ArrayList<BaseActor> getList(Stage stage, String className) {
+        ArrayList<BaseActor> list = new ArrayList<>();
+        Class theClass = null;
+
+        try {
+            theClass = Class.forName(className);
+        }
+        catch (Exception error) {
+            error.printStackTrace();
+        }
+        for (Actor a: stage.getActors()) {
+            if (theClass.isInstance(a))
+                list.add((BaseActor) a);
+        }
+
+        return list;
+    }
+
+
+
+
+
+    // ***********************
 
 
 

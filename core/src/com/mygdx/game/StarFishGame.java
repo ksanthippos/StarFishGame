@@ -11,6 +11,7 @@ public class StarFishGame extends GameBeta {
 
 	private Turtle turtle;
 	private Starfish starfish;
+	private Rock rock;
 	private BaseActor ocean;
 
 	@Override
@@ -22,10 +23,14 @@ public class StarFishGame extends GameBeta {
 
 		starfish = new Starfish(380, 380, mainStage);
 		turtle = new Turtle(20, 20, mainStage);
+		rock = new Rock(200, 200, mainStage);
 	}
 
 	@Override
 	public void update(float dt) {
+
+		turtle.preventOverlap(rock);
+
 		if (turtle.overlaps(starfish) && !starfish.isCollected()) {
 			starfish.collect();
 
@@ -39,10 +44,7 @@ public class StarFishGame extends GameBeta {
 			winMessage.setOrigin(0);
 			winMessage.addAction(Actions.delay(1));
 			winMessage.addAction(Actions.after(Actions.fadeIn(1)));
-
 		}
-
-
 	}
 
 
