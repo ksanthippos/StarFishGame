@@ -16,7 +16,7 @@ public class Turtle extends BaseActor {
 
         // set physics
         setAcceleration(400);
-        setDeceleration(300);
+        setDeceleration(30);    // low value --> more "sliding" feel in the water!
         setMaxSpeed(100);
     }
 
