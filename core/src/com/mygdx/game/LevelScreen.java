@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class LevelScreen extends BaseScreen {
@@ -13,7 +12,6 @@ public class LevelScreen extends BaseScreen {
 
     private boolean win;
     private boolean lose;
-    private boolean sfAdded;
     private int collectedSF;
 
     private List<Starfish> starfishList;

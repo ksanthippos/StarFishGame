@@ -27,11 +27,11 @@ public class Shark extends BaseActor {
         // turn around if near world bounds
         if (this.getX() < 100)
             angle = 0;
-        else if (this.getX() > 1000)
+        else if (this.getX() > getWorldBounds().width - 150)
             angle = 180;
         else if (this.getY() < 100)
             angle = 90;
-        else if (this.getY() > 800)
+        else if (this.getY() > getWorldBounds().height - 100)
             angle = 270;
 
         accelerateAtAngle(angle);

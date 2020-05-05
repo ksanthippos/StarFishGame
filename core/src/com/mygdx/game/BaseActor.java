@@ -340,6 +340,10 @@ public class BaseActor extends Actor {
         setWorldBounds(actor.getWidth(), actor.getHeight());
     }
 
+    public static Rectangle getWorldBounds() { return worldBounds; }
+
+
+
     // ***********************
 
 
