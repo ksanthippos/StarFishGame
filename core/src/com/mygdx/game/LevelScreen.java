@@ -4,15 +4,20 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LevelScreen extends BaseScreen {
 
     private Turtle turtle;
+
     private boolean win;
+    private boolean lose;
     private int collectedSF;
+
     private List<Starfish> starfishList;
     private List<Rock> rockList;
+    private List<Shark> sharkList;
 
     @Override
     public void initialize() {
@@ -25,6 +30,7 @@ public class LevelScreen extends BaseScreen {
         // game objects
         starfishList = new ArrayList<>();
         rockList = new ArrayList<>();
+        sharkList = new ArrayList<>();
 
         Starfish s1 = new Starfish(400, 400, mainStage);
         Starfish s2 = new Starfish(500, 100, mainStage);
@@ -37,6 +43,14 @@ public class LevelScreen extends BaseScreen {
         Rock r2 = new Rock(100, 300, mainStage);
         Rock r3 = new Rock(300, 300, mainStage);
         Rock r4 = new Rock(400, 600, mainStage);
+
+        for (int i = 0; i < 5; i++) {
+            int x = MathUtils.random(1, 11)*100;
+            int y = MathUtils.random(1, 11)*100;
+            Shark shark = new Shark(x, y, mainStage);
+            shark.setMaxSpeed(100);
+            sharkList.add(shark);
+        }
 
         starfishList.add(s1);
         starfishList.add(s2);
@@ -52,11 +66,25 @@ public class LevelScreen extends BaseScreen {
         turtle = new Turtle(20, 20, mainStage);
         collectedSF = 0;
         win = false;
-
+        lose = false;
     }
 
     @Override
     public void update(float dt) {
+
+        for (Shark shark: sharkList) {
+            if (turtle.overlaps(shark) && !lose && !win) {
+                lose = true;
+                turtle.remove();
+                BaseActor loseMessage = new BaseActor(0, 0, uiStage);
+                loseMessage.loadTexture("game-over.png");
+                loseMessage.centerAtPosition(400, 300);
+                loseMessage.setOrigin(0);
+                loseMessage.addAction(Actions.delay(1));
+                loseMessage.addAction(Actions.after(Actions.fadeIn(1)));
+            }
+        }
+
         for (Rock rock: rockList)
             turtle.preventOverlap(rock);
 
