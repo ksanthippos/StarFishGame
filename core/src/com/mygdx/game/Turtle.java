@@ -33,6 +33,8 @@ public class Turtle extends BaseActor {
             accelerateAtAngle(180);
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             accelerateAtAngle(0);
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+            Gdx.app.exit();
 
         applyPhysics(dt);
         setAnimationPaused(!isMoving());

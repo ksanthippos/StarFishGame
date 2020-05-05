@@ -13,6 +13,7 @@ public class LevelScreen extends BaseScreen {
 
     private boolean win;
     private boolean lose;
+    private boolean sfAdded;
     private int collectedSF;
 
     private List<Starfish> starfishList;
@@ -32,36 +33,37 @@ public class LevelScreen extends BaseScreen {
         rockList = new ArrayList<>();
         sharkList = new ArrayList<>();
 
-        Starfish s1 = new Starfish(400, 400, mainStage);
-        Starfish s2 = new Starfish(500, 100, mainStage);
-        Starfish s3 = new Starfish(200, 250, mainStage);
-        Starfish s4 = new Starfish(600, 570, mainStage);
-        Starfish s5 = new Starfish(800, 440, mainStage);
-        Starfish s6 = new Starfish(1000, 800, mainStage);
-
-        Rock r1 = new Rock(200, 150, mainStage);
+        // rocks & starfishes placed in fixed locations
+        Rock r1 = new Rock(300, 200, mainStage);
         Rock r2 = new Rock(100, 300, mainStage);
-        Rock r3 = new Rock(300, 300, mainStage);
-        Rock r4 = new Rock(400, 600, mainStage);
+        Rock r3 = new Rock(400, 500, mainStage);
+        Rock r4 = new Rock(600, 700, mainStage);
 
-        for (int i = 0; i < 5; i++) {
-            int x = MathUtils.random(1, 11)*100;
-            int y = MathUtils.random(1, 11)*100;
-            Shark shark = new Shark(x, y, mainStage);
-            shark.setMaxSpeed(100);
-            sharkList.add(shark);
-        }
+        rockList.add(r1);
+        rockList.add(r2);
+        rockList.add(r3);
+        rockList.add(r4);
+
+        Starfish s1 = new Starfish(200, 300, mainStage);
+        Starfish s2 = new Starfish(500, 800, mainStage);
+        Starfish s3 = new Starfish(900, 600, mainStage);
+        Starfish s4 = new Starfish(700, 100, mainStage);
+        Starfish s5 = new Starfish(300, 400, mainStage);
 
         starfishList.add(s1);
         starfishList.add(s2);
         starfishList.add(s3);
         starfishList.add(s4);
         starfishList.add(s5);
-        starfishList.add(s6);
-        rockList.add(r1);
-        rockList.add(r2);
-        rockList.add(r3);
-        rockList.add(r4);
+
+        // sharks placed randomly
+        for (int i = 0; i < 5; i++) {
+            int x = MathUtils.random(2, 10)*100;
+            int y = MathUtils.random(2, 10)*100;
+            Shark shark = new Shark(x, y, mainStage);
+            shark.setMaxSpeed(50);
+            sharkList.add(shark);
+        }
 
         turtle = new Turtle(20, 20, mainStage);
         collectedSF = 0;
@@ -111,5 +113,10 @@ public class LevelScreen extends BaseScreen {
                 winMessage.addAction(Actions.after(Actions.fadeIn(1)));
             }
         }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
     }
 }
