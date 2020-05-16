@@ -1,11 +1,13 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-public abstract class BaseScreen implements Screen {
+public abstract class BaseScreen implements Screen, InputProcessor {
 
     protected Stage mainStage;
     protected Stage uiStage;
@@ -29,6 +31,52 @@ public abstract class BaseScreen implements Screen {
         uiStage.draw();
     }
 
+    // from inputprocessor interface
+    // **************
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+    // ***************
+
+
+    // from screen interface
+    // ***************
     @Override
     public void resize(int width, int height) {
     }
@@ -50,12 +98,22 @@ public abstract class BaseScreen implements Screen {
 
     @Override
     public void show() {
-
+        InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
+        im.addProcessor(this);
+        im.addProcessor(uiStage);
+        im.addProcessor(mainStage);
     }
 
     @Override
     public void hide() {
+        InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
+        im.removeProcessor(this);
+        im.removeProcessor(uiStage);
+        im.removeProcessor(mainStage);
 
     }
+    // ***************
+
+
 
 }

@@ -9,14 +9,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-
 import java.util.ArrayList;
 
-public class BaseActor extends Actor {
+public class BaseActor extends Group {
 
     private Animation<TextureRegion> animation;
     private float elapsedTime;
@@ -58,7 +58,7 @@ public class BaseActor extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
+
         Color c = getColor();
         batch.setColor(c.r, c.g, c.b, c.a);
 
@@ -66,6 +66,7 @@ public class BaseActor extends Actor {
             batch.draw(animation.getKeyFrame(elapsedTime), getX(), getY(), getOriginX(), getOriginY(),
                     getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         }
+        super.draw(batch, parentAlpha);
     }
 
     // ANIMATION
@@ -329,6 +330,17 @@ public class BaseActor extends Actor {
             setY(0);
         if (getY() + getHeight() > worldBounds.height)  // top
             setY(worldBounds.height - getHeight());
+    }
+
+    public void wrapAroundWorld() {
+        if (getX() + getWidth() < 0)
+            setX(worldBounds.width);
+        if (getX() > worldBounds.width)
+            setX(-getWidth());
+        if (getY() + getHeight() < 0)
+            setY(worldBounds.height);
+        if (getY() > worldBounds.height)
+            setY(-getHeight());
     }
 
     // these are static methods
