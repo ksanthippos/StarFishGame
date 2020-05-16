@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sun.tools.javac.code.Attribute;
+
 
 import java.util.ArrayList;
 
@@ -342,6 +342,33 @@ public class BaseActor extends Actor {
 
     public static Rectangle getWorldBounds() { return worldBounds; }
 
+
+    // ------------------------------
+    // IMPORTANT!! these two methods have to be called: BaseActor.getList(mainStage, CLASSNAME_HERE.class.getCanonicalName())
+    public static ArrayList<BaseActor> getList(Stage stage, String className) {
+
+        ArrayList<BaseActor> list = new ArrayList<>();
+        Class theClass = null;
+        try {
+            theClass = Class.forName(className);
+        }
+        catch (Exception error) {
+            error.printStackTrace();
+        }
+
+        for (Actor a: stage.getActors()) {
+            if (theClass.isInstance(a)) {
+                list.add((BaseActor) a);
+            }
+        }
+
+        return list;
+    }
+
+    public static int count(Stage stage, String className) {
+        return getList(stage, className).size();
+    }
+    // ------------------------------
 
 
     // ***********************
